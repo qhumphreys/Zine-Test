@@ -1,19 +1,31 @@
 const printButton = document.getElementById('printbtn');
 
-const printPage = () => {
-    const printFrame = document.createElement('iframe');
-    printFrame.style.display = 'none';
-    printFrame.src = 'index.html';
-    document.body.appendChild(printframe);
+// const printPage = () => {
+//     const printFrame = document.createElement('iframe');
+//     printFrame.style.display = 'none';
+//     printFrame.src = 'index.html';
+//     document.body.appendChild(printframe);
+//     printFrame.contentWindow.focus();
+//     printFrame.contentWindow.print();
+// };
 
-    var printWindow = window.open('', '_blank', 'height=8in,width=5.5in');
-    printWindow.document.write(printFrame.document.documentElement.outerHTML);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-};
-
-printButton.addEventListener('click', () => {
-    printPage();
-}); 
+// printButton.addEventListener('click', () => {
+//     printPage();
+// }); 
+function printPage(){
+    try{ 
+        var oIframe = document.getElementById('ifrmPrint');
+        var oContent = document.getElementById('divToPrint').innerHTML;
+        var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+        if (oDoc.document) oDoc = oDoc.document;
+        oDoc.write("<html><head><title>title</title>");
+        oDoc.write("</head><body onload='this.focus(); this.print();'>");
+        oDoc.write(oContent + "</body></html>"); 
+       
+        oDoc.close(); 
+       
+        }
+        catch(e){
+        self.print();
+        }
+}
